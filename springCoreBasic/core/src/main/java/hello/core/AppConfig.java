@@ -8,7 +8,10 @@ import hello.core.member.MemberServiceImpl;
 import hello.core.member.MemoryMemberRepository;
 import hello.core.order.OrderService;
 import hello.core.order.OrderServiceImpl;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
+@Configuration
 public class AppConfig {    // application 전체를 설정하고 구성
 
     /*
@@ -18,18 +21,22 @@ public class AppConfig {    // application 전체를 설정하고 구성
         역할과 구현 클래스가 한눈에 들어옴. 전체 구성이 어떻게 되어있는지 빠르게 파악할 수 있음
      */
 
+    @Bean
     public MemberService memberService(){
-        return new MemberServiceImpl(getMemberRepository());
+        return new MemberServiceImpl(memberRepository());
     }
 
-    private MemoryMemberRepository getMemberRepository() {
+    @Bean
+    public MemoryMemberRepository memberRepository() {
         return new MemoryMemberRepository();
     }
 
+    @Bean
     public OrderService orderService(){
-        return new OrderServiceImpl(getMemberRepository(), discountPolicy());
+        return new OrderServiceImpl(memberRepository(), discountPolicy());
     }
 
+    @Bean
     public DiscountPolicy discountPolicy(){
 //        return new FixDiscountPolicy();
         return new RateDiscountPolicy();
