@@ -8,6 +8,7 @@ import hello.core.member.MemberRepository;
 import hello.core.member.MemoryMemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -33,8 +34,13 @@ public class OrderServiceImpl implements OrderService{
 //    }
 
     @Autowired    // 생성자가 하나일때는 생략 가능
-    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+    public OrderServiceImpl(MemberRepository memberRepository,
+//                            DiscountPolicy rateDiscountPolicy
+//                            @Qualifier("mainDiscountPolicy") DiscountPolicy discountPolicy
+                            DiscountPolicy discountPolicy
+    ) {
         this.memberRepository = memberRepository;
+//        this.discountPolicy = rateDiscountPolicy;
         this.discountPolicy = discountPolicy;
     }
 
